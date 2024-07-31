@@ -1,5 +1,5 @@
 terraform{
-    source = "../../../infrastructure-modules/argo"
+    source = "../../infrastructure-modules/argo"
 }
 
 include "root" {

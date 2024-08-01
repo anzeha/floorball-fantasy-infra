@@ -13,6 +13,13 @@ generate_projects:
     defaultWorkflow: default
 workflows:
   default:
+    env_vars:
+        state:
+          - name: TF_VAR_github_token
+            value_from: GITHUB_TOKEN
+        commands:
+          - name: TF_VAR_github_username
+            value: anzeha
     plan:
       steps:
         - init

@@ -11,6 +11,7 @@ on:
 
 jobs:
   plan:
+    permissions: write-all
     name: Digger
     runs-on: ubuntu-latest
     steps:

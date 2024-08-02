@@ -18,7 +18,7 @@ remote_state {
 locals{
   config_vars = read_terragrunt_config("${get_parent_terragrunt_dir()}/config.hcl")
   
-  secret_vars = { github_token   = get_env("TF_VAR_github_token", "")}
+  secret_vars = { github_token   = get_env("TF_VAR_github_token")}
 
   # Extract the variables we need for easy access
   region = local.config_vars.locals.region

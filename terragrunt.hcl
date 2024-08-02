@@ -18,14 +18,7 @@ remote_state {
 locals{
   config_vars = read_terragrunt_config("${get_parent_terragrunt_dir()}/config.hcl")
   
-  secrets_file = "${get_parent_terragrunt_dir()}/secrets.tfvars"
-  
-  secret_vars = fileexists(local.secrets_file) ? 
-                jsondecode(read_tfvars_file(local.secrets_file)) : 
-                {
-                  github_token   = getenv("TF_VAR_github_token"),
-                  github_username = getenv("TF_VAR_github_username")
-                }
+  secret_vars = { github_token   = get_env("TF_VAR_github_token"), github_username = get_env("TF_VAR_github_username")}
 
   # Extract the variables we need for easy access
   region = local.config_vars.locals.region

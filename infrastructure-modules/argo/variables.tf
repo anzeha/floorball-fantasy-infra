@@ -28,6 +28,7 @@ variable "github_username" {
   type = string
   description = "Github username."
   sensitive = true
+  default = "anzeha"
 }
 
 variable "github_token" {

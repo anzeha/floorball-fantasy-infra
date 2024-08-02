@@ -31,6 +31,7 @@ jobs:
         setup-google-cloud: true
         google-auth-credentials: '${{ secrets.GCP_CREDENTIALS }}'
         setup-terragrunt: true
+        terragrunt-version: 0.63.5
         no-backend: true
       env:
         LOCK_PROVIDER: gcp

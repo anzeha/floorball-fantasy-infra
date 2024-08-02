@@ -17,10 +17,11 @@ remote_state {
 
 locals{
   config_vars = read_terragrunt_config("${get_parent_terragrunt_dir()}/config.hcl")
-  secret_vars = jsondecode(read_tfvars_file("${get_parent_terragrunt_dir()}/secrets.tfvars"))
-
-  secret_vars = fileexists("${get_parent_terragrunt_dir()}/secrets.tfvars") ? 
-                jsondecode(read_tfvars_file("${get_parent_terragrunt_dir()}/secrets.tfvars")) : 
+  
+  secrets_file = "${get_parent_terragrunt_dir()}/secrets.tfvars"
+  
+  secret_vars = fileexists(local.secrets_file) ? 
+                jsondecode(read_tfvars_file(local.secrets_file)) : 
                 {
                   github_token   = getenv("TF_VAR_github_token"),
                   github_username = getenv("TF_VAR_github_username")

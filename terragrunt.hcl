@@ -19,6 +19,13 @@ locals{
   config_vars = read_terragrunt_config("${get_parent_terragrunt_dir()}/config.hcl")
   secret_vars = jsondecode(read_tfvars_file("${get_parent_terragrunt_dir()}/secrets.tfvars"))
 
+  secret_vars = fileexists("${get_parent_terragrunt_dir()}/secrets.tfvars") ? 
+                jsondecode(read_tfvars_file("${get_parent_terragrunt_dir()}/secrets.tfvars")) : 
+                {
+                  github_token   = getenv("TF_VAR_github_token"),
+                  github_username = getenv("TF_VAR_github_username")
+                }
+
   # Extract the variables we need for easy access
   region = local.config_vars.locals.region
   project_id   = local.config_vars.locals.project_id

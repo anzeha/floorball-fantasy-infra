@@ -5,11 +5,25 @@ resource "google_compute_address" "ingress" {
   region  = var.region
 }
 
+resource "kubernetes_namespace" "example" {
+  metadata {
+    annotations = {
+      name = "example-annotation"
+    }
 
-module "nginx-controller" {
-  count = var.deploy_nginx ? 1 : 0
-  source = "terraform-iaac/nginx-controller/helm"
+    labels = {
+      mylabel = "label-value"
+    }
 
-  ip_address = google_compute_address.ingress[0].address
-
+    name = "terraform-example-namespace"
+  }
 }
+
+
+# module "nginx-controller" {
+#   count = var.deploy_nginx ? 1 : 0
+#   source = "terraform-iaac/nginx-controller/helm"
+
+#   ip_address = google_compute_address.ingress[0].address
+
+# }

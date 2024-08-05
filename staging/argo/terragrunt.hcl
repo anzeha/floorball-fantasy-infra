@@ -1,55 +1,65 @@
-// terraform{
-//     source = "../../infrastructure-modules/argo"
-// }
+terraform{
+    source = "../../infrastructure-modules/argo"
+}
 
-// include "root" {
-//     path = find_in_parent_folders()
-//     expose = true
-// }
+include "root" {
+    path = find_in_parent_folders()
+    expose = true
+}
 
-// include "env" {
-//     path           = find_in_parent_folders("env.hcl")
-//     expose         = true
-//     merge_strategy = "no_merge"
-// }
+include "env" {
+    path           = find_in_parent_folders("env.hcl")
+    expose         = true
+    merge_strategy = "no_merge"
+}
 
-// inputs = {
-//     env            = include.env.locals.env
+inputs = {
+    env            = include.env.locals.env
 
-//     github_username = include.root.locals.secret_vars.github_username
-//     github_token = include.root.locals.secret_vars.github_token
+    github_username = include.root.locals.secret_vars.github_username
+    github_token = include.root.locals.secret_vars.github_token
 
-//     argo_image_updater_values = "${file("./values/argo-image-updater.values.yml")}"
-//     argo_apps_values = "${file("./values/argo-apps.values.yml")}"
-// }
+    argo_image_updater_values = "${file("./values/argo-image-updater.values.yml")}"
+    argo_apps_values = "${file("./values/argo-apps.values.yml")}"
 
-// dependency "eks_cluster" {
-//   config_path = "../cluster"
+    argo_apps = false
+    argo_image_updater = false
+}
 
-//   mock_outputs = {
-//        cluster_ca_certificate = "sample-ceritifcate"
-//        host = "sample-host"
-//        token = "token"
-//      }
-// }
+dependency "eks_cluster" {
+  config_path = "../cluster"
 
-// generate "kubernetes_provider" {
-//   path = "kubernetes-provider-test.tf"
-//   if_exists = "overwrite_terragrunt"
+  mock_outputs = {
+       cluster_ca_certificate = "sample-ceritifcate"
+       host = "sample-host"
+       token = "token"
+     }
+}
 
-//   contents = <<EOF
-// provider "kubernetes" {
-//   cluster_ca_certificate = base64decode("${dependency.eks_cluster.outputs.cluster_ca_certificate}")
-//   host                   = "${dependency.eks_cluster.outputs.host}"
-//   token                  = "${dependency.eks_cluster.outputs.token}"
-// }
+generate "kubernetes_provider" {
+  path = "kubernetes-provider-test.tf"
+  if_exists = "overwrite_terragrunt"
 
-// provider "helm" {
-//   kubernetes {
-//     cluster_ca_certificate = base64decode("${dependency.eks_cluster.outputs.cluster_ca_certificate}")
-//     host                   = "${dependency.eks_cluster.outputs.host}"
-//     token                  = "${dependency.eks_cluster.outputs.token}"
-//   }
-// }
-// EOF
-// }
+  contents = <<EOF
+provider "kubernetes" {
+  cluster_ca_certificate = base64decode("${dependency.eks_cluster.outputs.cluster_ca_certificate}")
+  host                   = "${dependency.eks_cluster.outputs.host}"
+  token                  = "${dependency.eks_cluster.outputs.token}"
+  exec {
+    api_version = "client.authentication.k8s.io/v1beta1"
+    command     = "gke-gcloud-auth-plugin"
+  }
+}
+provider "helm" {
+  kubernetes {
+    cluster_ca_certificate = base64decode("${dependency.eks_cluster.outputs.cluster_ca_certificate}")
+    host                   = "${dependency.eks_cluster.outputs.host}"
+    token                  = "${dependency.eks_cluster.outputs.token}"
+    exec {
+      api_version = "client.authentication.k8s.io/v1beta1"
+      command     = "gke-gcloud-auth-plugin"
+    }
+  }
+}
+EOF
+}

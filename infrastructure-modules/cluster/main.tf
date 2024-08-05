@@ -93,7 +93,7 @@ data "google_client_config" "provider" {
 data "google_container_cluster" "gke" {
   depends_on = [ module.gke ]
   name     = module.gke.name
-  location = module.gke.zones[0]
+  location = "${var.region}-a"
 }
 
 # resource "google_compute_address" "ingress" {

@@ -48,6 +48,7 @@ provider "helm" {
 EOF
 }
 
+
 inputs = {
     env            = include.env.locals.env
     project_id     = include.root.locals.config_vars.locals.project_id

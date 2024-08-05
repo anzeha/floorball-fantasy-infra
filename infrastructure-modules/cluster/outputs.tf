@@ -1,5 +1,6 @@
 output "cluster_ca_certificate" {
-  value = base64encode(data.google_container_cluster.gke.master_auth.0.cluster_ca_certificate)
+  # value = base64encode(data.google_container_cluster.gke.master_auth.0.cluster_ca_certificate)
+  value = base64encode(module.gke_auth.cluster_ca_certificate)
   sensitive = true
 }
 

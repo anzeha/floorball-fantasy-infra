@@ -22,8 +22,8 @@ inputs = {
     argo_image_updater_values = "${file("./values/argo-image-updater.values.yml")}"
     argo_apps_values = "${file("./values/argo-apps.values.yml")}"
 
-    argo_apps = false
-    argo_image_updater = false
+    argo_apps = true
+    argo_image_updater = true
 }
 
 dependency "eks_cluster" {

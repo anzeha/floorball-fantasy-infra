@@ -6,6 +6,7 @@ output "cluster_ca_certificate" {
 
 output "host" {
   value = module.gke_auth.host
+  sensitive = true
 }
 
 output "token" {

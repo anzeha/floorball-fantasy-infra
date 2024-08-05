@@ -20,6 +20,21 @@ resource "kubernetes_namespace" "example" {
 }
 
 
+resource "kubernetes_namespace" "example1" {
+  metadata {
+    annotations = {
+      name = "example-annotation1"
+    }
+
+    labels = {
+      mylabel = "label-value1"
+    }
+
+    name = "terraform-example-namespace1"
+  }
+}
+
+
 # module "nginx-controller" {
 #   count = var.deploy_nginx ? 1 : 0
 #   source = "terraform-iaac/nginx-controller/helm"

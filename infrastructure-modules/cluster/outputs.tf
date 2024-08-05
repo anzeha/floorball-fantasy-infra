@@ -1,10 +1,10 @@
 output "cluster_ca_certificate" {
-  value = module.gke_auth.cluster_ca_certificate
+  value = module.gke.ca_certificate
   sensitive = true
 }
 
 output "host" {
-  value = module.gke_auth.host
+  value = module.gke.endpoint
   sensitive = true
 }
 

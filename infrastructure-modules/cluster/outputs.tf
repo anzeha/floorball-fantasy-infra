@@ -9,6 +9,6 @@ output "host" {
 }
 
 output "token" {
-  value = module.gke_auth.token
+  value = data.google_client_config.provider.access_token
   sensitive = true
 }

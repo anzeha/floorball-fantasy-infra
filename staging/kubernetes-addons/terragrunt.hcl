@@ -30,8 +30,12 @@ generate "kubernetes_provider" {
   contents = <<EOF
 provider "kubernetes" {
   cluster_ca_certificate = "${dependency.eks_cluster.outputs.cluster_ca_certificate}"
-  host                   = "${dependency.eks_cluster.outputs.host}"
+  host                   = "https://${dependency.eks_cluster.outputs.host}"
   token                  = "${dependency.eks_cluster.outputs.token}"
+  exec {
+    api_version = "client.authentication.k8s.io/v1beta1"
+    command     = "gke-gcloud-auth-plugin"
+  }
 }
 
 provider "helm" {

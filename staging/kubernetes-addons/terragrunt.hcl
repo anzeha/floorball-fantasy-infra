@@ -29,7 +29,7 @@ generate "kubernetes_provider" {
 
   contents = <<EOF
 provider "kubernetes" {
-  cluster_ca_certificate = "${dependency.eks_cluster.outputs.cluster_ca_certificate}"
+  cluster_ca_certificate = base64decode("${dependency.eks_cluster.outputs.cluster_ca_certificate}")
   host                   = "${dependency.eks_cluster.outputs.host}"
   token                  = "${dependency.eks_cluster.outputs.token}"
   exec {

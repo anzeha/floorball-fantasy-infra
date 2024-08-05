@@ -39,6 +39,10 @@ provider "helm" {
     cluster_ca_certificate = base64decode("${dependency.eks_cluster.outputs.cluster_ca_certificate}")
     host                   = "${dependency.eks_cluster.outputs.host}"
     token                  = "${dependency.eks_cluster.outputs.token}"
+    exec {
+      api_version = "client.authentication.k8s.io/v1beta1"
+      command     = "gke-gcloud-auth-plugin"
+    }
   }
 }
 EOF

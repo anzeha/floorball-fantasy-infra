@@ -90,6 +90,12 @@ data "google_client_config" "provider" {
   depends_on = [ module.gke, module.gke_auth ]
 }
 
+data "google_container_cluster" "gke" {
+  depends_on = [ module.gke ]
+  name     = module.gke.name
+  location = module.gke.region
+}
+
 # resource "google_compute_address" "ingress" {
 #   name    = format("%s-%s-ingress-ip", var.cluster_name, var.env)
 #   project = var.project_id

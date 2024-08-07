@@ -2,8 +2,8 @@ module "gke" {
   source                   = "terraform-google-modules/kubernetes-engine/google//modules/private-cluster"
   project_id               = var.project_id
   name                     = "${var.cluster_name}-${var.env}"
-  regional                 = false
-  zones                    = ["${var.region}-a"]
+  regional                 = var.env == "prod" ? true : false
+  zones                    = var.env == "prod" ? [] : var.zones
   region                   = var.region
   network                  = "${var.network}"
   subnetwork               = "${var.subnetwork}"
@@ -26,8 +26,8 @@ module "gke" {
     {
       name           = "${var.node_pool_name}-${var.env}"
       machine_type   = var.machine_type
-      node_locations = "${var.region}-a"
-      disk_size_gb   = 30
+      node_locations = var.env == "prod" ? null :  "${var.zones[0]}"
+      disk_size_gb   = var.machine_disk_size
       spot           = true
       #   service_account = "gke-terraform@${var.project_id}.iam.gserviceaccount.com"
     },
@@ -85,55 +85,3 @@ module "gke_auth" {
   cluster_name = module.gke.name
   depends_on   = [module.gke.name]
 }
-
-
-# resource "google_compute_address" "ingress" {
-#   name    = format("%s-%s-ingress-ip", var.cluster_name, var.env)
-#   project = var.project_id
-#   region  = var.region
-# }
-
-
-# module "nginx-controller" {
-#   count = var.deploy_nginx ? 1 : 0
-#   source = "terraform-iaac/nginx-controller/helm"
-
-#   ip_address = google_compute_address.ingress.address
-
-# }
-
-
-# resource "kubernetes_ingress_v1" "this" {
-#   count = var.argocd_ingress ? 1 : 0
-#   metadata {
-#     name      = "argocd-server-http-ingress"
-#     namespace = "argocd"
-#     annotations = {
-#       "kubernetes.io/ingress.class": "nginx"
-#       "nginx.ingress.kubernetes.io/force-ssl-redirect": "true"
-#       "ingress.kubernetes.io/ssl-redirect": "true"
-#       "nginx.ingress.kubernetes.io/backend-protocol": "HTTPS"
-#     }
-#   }
-
-#   spec {
-#     rule {
-
-#       http {
-#         path {
-#           path     = "/"
-#           path_type = "Prefix"
-
-#           backend {
-#             service {
-#               name = var.argo_cd_service_name
-#               port {
-#                 name = "http"
-#               }
-#             }
-#           }
-#         }
-#       }
-#     }
-#   }
-# }

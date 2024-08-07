@@ -17,6 +17,15 @@ variable "machine_type" {
   type = string
   default = "e2-standard-2"
 }
+variable "machine_disk_size" {
+  type = number
+  default = 30
+  
+}
+variable "zones" {
+  type = list(string)
+  default = [ "europe-west4-a" ]
+}
 
 variable "region" {
   type    = string

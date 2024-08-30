@@ -1,7 +1,7 @@
 locals{
     project_id= "deployment-433913"
     region="europe-west4"
-    bucket_name="${local.project_id}-bucket"
-    env = "dev"
     resource_prefix = "deployment"
+    is_project_resource = false
+    is_deployment_resource = true
 }

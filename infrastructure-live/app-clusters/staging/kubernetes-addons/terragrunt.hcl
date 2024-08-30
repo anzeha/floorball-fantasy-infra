@@ -1,5 +1,5 @@
 terraform{
-    source = "../../infrastructure-modules/argo"
+    source = "../../../../infrastructure-modules/kubernetes-addons"
 }
 
 include "root" {
@@ -7,37 +7,20 @@ include "root" {
     expose = true
 }
 
-// include "env" {
-//     path           = find_in_parent_folders("env.hcl")
-//     expose         = true
-//     merge_strategy = "no_merge"
-// }
-
-inputs = {
-    env            = include.root.locals.env
-
-    github_username = include.root.locals.secret_vars.github_username
-    github_token = include.root.locals.secret_vars.github_token
-
-    argo_image_updater_values = "${file("./values/argo-image-updater.values.yml")}"
-    argo_apps_values = "${file("./values/argo-apps.values.yml")}"
-
-    argo_apps = true
-    argo_image_updater = true
-}
 
 dependency "eks_cluster" {
-  config_path = "../cluster"
-
-  mock_outputs = {
+    config_path = "../cluster"
+     mock_outputs = {
        cluster_ca_certificate = "sample-ceritifcate"
        host = "sample-host"
        token = "token"
+       cluster_name = "sample-name"
      }
 }
 
+
 generate "kubernetes_provider" {
-  path = "kubernetes-provider-test.tf"
+  path = "kubernetes-provider.tf"
   if_exists = "overwrite_terragrunt"
 
   contents = <<EOF
@@ -62,4 +45,15 @@ provider "helm" {
   }
 }
 EOF
+}
+
+
+inputs = {
+    env = include.root.locals.environment_vars.locals.env
+    project_id = include.root.locals.project_id
+
+    cluster_name = dependency.eks_cluster.outputs.cluster_name
+
+    create_app_namespace = true
+    app_namespace = include.root.locals.environment_vars.locals.app_namespace
 }

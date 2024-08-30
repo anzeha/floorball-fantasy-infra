@@ -24,6 +24,7 @@ locals{
   region = local.config_vars.locals.region
   project_id   = local.config_vars.locals.project_id
   bucket_name = local.config_vars.locals.bucket_name
+  resource_prefix = local.config_vars.locals.resource_prefix
 }
 
 

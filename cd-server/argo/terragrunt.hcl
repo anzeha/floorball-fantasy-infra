@@ -7,14 +7,14 @@ include "root" {
     expose = true
 }
 
-include "env" {
-    path           = find_in_parent_folders("env.hcl")
-    expose         = true
-    merge_strategy = "no_merge"
-}
+// include "env" {
+//     path           = find_in_parent_folders("env.hcl")
+//     expose         = true
+//     merge_strategy = "no_merge"
+// }
 
 inputs = {
-    env            = include.env.locals.env
+    env            = include.root.locals.env
 
     github_username = include.root.locals.secret_vars.github_username
     github_token = include.root.locals.secret_vars.github_token

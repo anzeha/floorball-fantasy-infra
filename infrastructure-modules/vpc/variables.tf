@@ -5,12 +5,17 @@ variable "env" {
 
 variable "cluster_name" {
   type    = string
-  default = "gke-1"
+  default = "gke-cluster"
 }
 
 variable "project_id" {
   type = string
 }
+
+variable "resource_prefix" {
+  type = string
+}
+
 variable "network" {
   type    = string
   default = "gke-network"
@@ -56,4 +61,9 @@ variable "argo_cd_namespace"{
 variable "argo_cd_service_name"{
   type = string
   default = "argocd-server"
+}
+
+variable "create_service_accounts" {
+  type = bool
+  default = false
 }

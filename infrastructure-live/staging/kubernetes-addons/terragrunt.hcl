@@ -1,5 +1,5 @@
 terraform{
-    source = "../../infrastructure-modules/kubernetes-addons"
+    source = "../../../infrastructure-modules/kubernetes-addons"
 }
 
 include "root" {
@@ -19,6 +19,7 @@ dependency "eks_cluster" {
        cluster_ca_certificate = "sample-ceritifcate"
        host = "sample-host"
        token = "token"
+       cluster_name = "sample-name"
      }
 }
 
@@ -55,4 +56,9 @@ EOF
 inputs = {
     env            = include.env.locals.env
     project_id     = include.root.locals.config_vars.locals.project_id
+
+    cluster_name = dependency.eks_cluster.outputs.cluster_name
+
+    create_app_namespace = true
+    app_namespace = include.env.locals.app_namespace
 }

@@ -10,10 +10,19 @@ variable "deploy_nginx" {
 }
 variable "cluster_name" {
   type    = string
-  default = "gke-test-1"
 }
 
 variable "region" {
   type    = string
   default = "europe-west4"
+}
+
+variable "create_app_namespace" {
+  type = bool
+  default = false
+}
+
+variable "app_namespace" {
+  type = string
+  default = "app-namespace"
 }

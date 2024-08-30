@@ -1,5 +1,5 @@
 terraform{
-    source = "../../infrastructure-modules/cluster"
+    source = "../../../infrastructure-modules/vpc"
 }
 
 include "root" {
@@ -11,21 +11,13 @@ include "env" {
     path           = find_in_parent_folders("env.hcl")
     expose         = true
     merge_strategy = "no_merge"
+    
 }
 
 inputs = {
     env            = include.env.locals.env
     project_id     = include.root.locals.project_id
 
-    network = dependency.vpc.outputs.vpc_network_name
-    subnetwork = dependency.vpc.outputs.vpc_subnetwork_name
+    resource_prefix = include.root.locals.resource_prefix
 }
 
-dependency "vpc" {
-  config_path = "../vpc"
-
-  mock_outputs = {
-    network = "example-network"
-    subnetwork = "example-subnetwork"
-  }
-}

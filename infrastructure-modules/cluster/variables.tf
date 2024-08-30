@@ -5,6 +5,10 @@ variable "env" {
   type    = string
 }
 
+variable "resource_prefix" {
+  type = string
+}
+
 variable "cluster_name" {
   type    = string
   default = "gke-cluster"

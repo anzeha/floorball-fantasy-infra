@@ -13,3 +13,7 @@ output "token" {
   value = module.gke_auth.token
   sensitive = true
 }
+
+output "cluster_name" {
+  value = module.gke.name
+}

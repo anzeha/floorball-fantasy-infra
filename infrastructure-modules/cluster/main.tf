@@ -1,7 +1,7 @@
 module "gke" {
   source                   = "terraform-google-modules/kubernetes-engine/google//modules/private-cluster"
   project_id               = var.project_id
-  name                     = "${var.cluster_name}-${var.env}"
+  name                     = "${var.resource_prefix}-${var.cluster_name}-${var.env}"
   regional                 = var.env == "prod" ? true : false
   zones                    = var.env == "prod" ? [] : var.zones
   region                   = var.region
@@ -24,9 +24,11 @@ module "gke" {
 
   node_pools = [
     {
-      name           = "${var.node_pool_name}-${var.env}"
+      name           = "${var.resource_prefix}-${var.node_pool_name}-${var.env}"
       machine_type   = var.machine_type
-      node_locations = var.env == "prod" ? null :  "${var.zones[0]}"
+      # node_locations = var.env == "prod" ? null :  "${var.zones[0]}"
+      #TODO
+      node_locations = "${var.zones[0]}"
       disk_size_gb   = var.machine_disk_size
       spot           = true
       #   service_account = "gke-terraform@${var.project_id}.iam.gserviceaccount.com"

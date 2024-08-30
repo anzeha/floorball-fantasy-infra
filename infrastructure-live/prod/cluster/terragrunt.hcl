@@ -17,8 +17,11 @@
 //     env            = include.env.locals.env
 //     project_id     = include.root.locals.config_vars.locals.project_id
 
+//     resource_prefix = include.env.locals.resource_prefix
+
 //     network = dependency.vpc.outputs.vpc_network_name
 //     subnetwork = dependency.vpc.outputs.vpc_subnetwork_name
+
 // }
 
 // dependency "vpc" {

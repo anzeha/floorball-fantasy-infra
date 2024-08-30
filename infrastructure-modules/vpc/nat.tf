@@ -1,6 +1,6 @@
 #Cloud NAT
 resource "google_compute_address" "nat" {
-  name    = format("%s-%s-nat-ip", var.cluster_name, var.env)
+  name    = format("%s-%s-%s-nat-ip",var.resource_prefix, var.cluster_name, var.env)
   project = var.project_id
   region  = var.region
 }
@@ -11,7 +11,7 @@ module "cloud-nat" {
   project_id                         = var.project_id
   region                             = var.region
   router                             = google_compute_router.this.name
-  name                               = format("%s-cloud-nat", var.cluster_name)
+  name                               = format("%s-%s-cloud-nat", var.resource_prefix, var.cluster_name)
   nat_ips                            = ["${google_compute_address.nat.self_link}"]
   source_subnetwork_ip_ranges_to_nat = "LIST_OF_SUBNETWORKS"
   depends_on                         = [google_compute_address.nat, google_compute_address.nat]

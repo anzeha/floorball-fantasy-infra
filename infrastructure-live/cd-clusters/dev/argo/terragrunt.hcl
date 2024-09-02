@@ -1,38 +1,38 @@
-terraform{
-    source = "../../../../infrastructure-modules/argo"
+terraform {
+  source = "../../../../infrastructure-modules/argo"
 }
 
 include "root" {
-    path = find_in_parent_folders()
-    expose = true
+  path   = find_in_parent_folders()
+  expose = true
 }
 
 
 inputs = {
-    env            = include.root.locals.environment_vars.locals.env
+  env = include.root.locals.environment_vars.locals.env
 
-    github_username = "anzeha"
-    github_token = get_env("TF_VAR_github_token")
+  github_username = "anzeha"
+  github_token    = get_env("TF_VAR_github_token")
 
-    argo_image_updater_values = "${file("./values/argo-image-updater.values.yml")}"
-    argo_apps_values = "${file("./values/argo-apps.values.yml")}"
+  argo_image_updater_values = "${file("./values/argo-image-updater.values.yml")}"
+  argo_apps_values          = "${file("./values/argo-apps.values.yml")}"
 
-    argo_apps = true
-    argo_image_updater = true
+  argo_apps          = true
+  argo_image_updater = true
 }
 
 dependency "eks_cluster" {
   config_path = "../cluster"
 
   mock_outputs = {
-       cluster_ca_certificate = "sample-ceritifcate"
-       host = "sample-host"
-       token = "token"
-     }
+    cluster_ca_certificate = "sample-ceritifcate"
+    host                   = "sample-host"
+    token                  = "token"
+  }
 }
 
 generate "kubernetes_provider" {
-  path = "kubernetes-provider-test.tf"
+  path      = "kubernetes-provider-test.tf"
   if_exists = "overwrite_terragrunt"
 
   contents = <<EOF

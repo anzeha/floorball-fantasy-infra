@@ -1,24 +1,24 @@
-terraform{
-    source = "../../../../infrastructure-modules/argo-app-clusters"
+terraform {
+  source = "../../../../infrastructure-modules/argo-app-clusters"
 }
 
 include "root" {
-    path = find_in_parent_folders()
-    expose = true
+  path   = find_in_parent_folders()
+  expose = true
 }
 
 dependency "eks_cluster_self" {
-    config_path = "../cluster"
-     mock_outputs = {
-       cluster_ca_certificate = "sample-ceritifcate"
-       host = "sample-host"
-       token = "token"
-       cluster_name = "sample-name"
-     }
+  config_path = "../cluster"
+  mock_outputs = {
+    cluster_ca_certificate = "sample-ceritifcate"
+    host                   = "sample-host"
+    token                  = "token"
+    cluster_name           = "sample-name"
+  }
 }
 
 generate "kubernetes_provider" {
-  path = "kubernetes-provider.tf"
+  path      = "kubernetes-provider.tf"
   if_exists = "overwrite_terragrunt"
 
   contents = <<EOF
@@ -47,13 +47,13 @@ EOF
 
 
 inputs = {
-    clusters = [
-        {
-            bearerToken = "${dependency.app_cluster_staging.outputs.service_account_key}"
-            name        = "${dependency.app_cluster_staging.outputs.cluster_name}"
-            server      = "${dependency.app_cluster_staging.outputs.host}"
-        },
-    ]
+  clusters = [
+    {
+      bearerToken = "${dependency.app_cluster_staging.outputs.service_account_key}"
+      name        = "${dependency.app_cluster_staging.outputs.cluster_name}"
+      server      = "${dependency.app_cluster_staging.outputs.host}"
+    },
+  ]
 }
 
 ####################################
@@ -61,9 +61,9 @@ inputs = {
 ####################################
 dependency "app_cluster_staging" {
   config_path = "../../../../infrastructure-live/app-clusters/staging/cluster"
-    mock_outputs = {
-      cluster_name = "sample-cluster-name"
-      host = "sample-host"
-      service_account_key = "exmaple-service-account-key"
-    }
+  mock_outputs = {
+    cluster_name        = "sample-cluster-name"
+    host                = "sample-host"
+    service_account_key = "exmaple-service-account-key"
+  }
 }

@@ -1,4 +1,4 @@
 locals {
-    env = "staging"
-    app_namespace = "floorball-fantasy"
+  env           = "staging"
+  app_namespace = "floorball-fantasy"
 }

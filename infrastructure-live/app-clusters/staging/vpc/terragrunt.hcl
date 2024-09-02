@@ -11,6 +11,7 @@ locals {
   env             = include.root.locals.environment_vars.locals.env
   project_id      = include.root.locals.project_id
   resource_prefix = include.root.locals.config_vars.locals.resource_prefix
+
 }
 
 inputs = {

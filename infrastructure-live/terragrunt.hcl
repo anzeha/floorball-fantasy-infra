@@ -19,7 +19,7 @@ locals{
 //   config_vars = read_terragrunt_config("${get_parent_terragrunt_dir()}/config.hcl") 
   config_vars = read_terragrunt_config(find_in_parent_folders("config.hcl"))
 
-  environment_vars = read_terragrunt_config(find_in_parent_folders("env.hcl"))
+  // environment_vars = read_terragrunt_config(find_in_parent_folders("env.hcl"))
 
   bucket_vars = read_terragrunt_config(find_in_parent_folders("bucket.hcl"))
 

@@ -47,13 +47,17 @@ provider "helm" {
 EOF
 }
 
+locals{
+  environment_vars = read_terragrunt_config(find_in_parent_folders("env.hcl"))
+}
+
 
 inputs = {
-  env        = include.root.locals.environment_vars.locals.env
+  env        = local.environment_vars.locals.env
   project_id = include.root.locals.project_id
 
   cluster_name = dependency.eks_cluster.outputs.cluster_name
 
   create_app_namespace = true
-  app_namespace        = include.root.locals.environment_vars.locals.app_namespace
+  app_namespace        = local.environment_vars.locals.app_namespace
 }

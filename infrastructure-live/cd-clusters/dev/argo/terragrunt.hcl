@@ -7,9 +7,14 @@ include "root" {
   expose = true
 }
 
+locals{
+  environment_vars = read_terragrunt_config(find_in_parent_folders("env.hcl"))
+}
+
 
 inputs = {
-  env = include.root.locals.environment_vars.locals.env
+
+  env = local.environment_vars.locals.env
 
   github_username = "anzeha"
   github_token    = get_env("TF_VAR_github_token")

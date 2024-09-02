@@ -50,8 +50,3 @@ variable "network" {
 variable "subnetwork" {
   type    = string
 }
-
-variable "create_service_account" {
-  type = bool
-  default = false
-}

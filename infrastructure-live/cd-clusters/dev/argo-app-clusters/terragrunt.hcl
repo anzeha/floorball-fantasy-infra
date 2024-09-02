@@ -49,11 +49,18 @@ EOF
 inputs = {
   clusters = [
     {
-      bearerToken = "${dependency.app_cluster_staging.outputs.service_account_key}"
+      bearerToken = "${dependency.service_account.outputs.service_account_key}"
       name        = "${dependency.app_cluster_staging.outputs.cluster_name}"
       server      = "${dependency.app_cluster_staging.outputs.host}"
     },
   ]
+}
+
+dependency "service_account" {
+  config_path = "../../../../infrastructure-live/app-clusters/service-account"
+  mock_outputs = {
+    service_account_key        = "sample-service-account-key"
+  }
 }
 
 ####################################

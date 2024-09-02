@@ -17,22 +17,6 @@ dependency "eks_cluster_self" {
      }
 }
 
-dependency "app_vpc_staging" {
-  config_path = "../../../../infrastructure-live/app-clusters/staging/vpc"
-    mock_outputs = {
-      service_account_key = "sample-account-key"
-    }
-}
-
-dependency "app_cluster_staging" {
-  config_path = "../../../../infrastructure-live/app-clusters/staging/cluster"
-    mock_outputs = {
-      cluster_name = "sample-cluster-name"
-      host = "sample-host"
-    }
-}
-
-
 generate "kubernetes_provider" {
   path = "kubernetes-provider.tf"
   if_exists = "overwrite_terragrunt"
@@ -65,9 +49,21 @@ EOF
 inputs = {
     clusters = [
         {
-            bearerToken = "${dependency.app_vpc_staging.outputs.service_account_key}"
+            bearerToken = "${dependency.app_cluster_staging.outputs.service_account_key}"
             name        = "${dependency.app_cluster_staging.outputs.cluster_name}"
             server      = "${dependency.app_cluster_staging.outputs.host}"
         },
     ]
+}
+
+####################################
+#  Dependencies for app clusters   #
+####################################
+dependency "app_cluster_staging" {
+  config_path = "../../../../infrastructure-live/app-clusters/staging/cluster"
+    mock_outputs = {
+      cluster_name = "sample-cluster-name"
+      host = "sample-host"
+      service_account_key = "exmaple-service-account-key"
+    }
 }

@@ -18,7 +18,6 @@ inputs = {
     network = dependency.vpc.outputs.vpc_network_name
     subnetwork = dependency.vpc.outputs.vpc_subnetwork_name
 
-    create_service_accounts = include.root.locals.config_vars.locals.is_project_resource
 }
 
 dependency "vpc" {

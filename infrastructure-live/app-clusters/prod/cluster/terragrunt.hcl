@@ -1,34 +1,31 @@
-// terraform{
-//     source = "../../infrastructure-modules/cluster"
-// }
+terraform{
+    source = "../../../../infrastructure-modules/cluster"
+}
 
-// include "root" {
-//     path = find_in_parent_folders()
-//     expose = true
-// }
+include "root" {
+    path = find_in_parent_folders()
+    expose = true
+}
 
-// include "env" {
-//     path           = find_in_parent_folders("env.hcl")
-//     expose         = true
-//     merge_strategy = "no_merge"
-// }
+inputs = {
 
-// inputs = {
-//     env            = include.env.locals.env
-//     project_id     = include.root.locals.config_vars.locals.project_id
+    env = include.root.locals.environment_vars.locals.env
+    project_id = include.root.locals.project_id
 
-//     resource_prefix = include.env.locals.resource_prefix
+    resource_prefix = include.root.locals.config_vars.locals.resource_prefix
 
-//     network = dependency.vpc.outputs.vpc_network_name
-//     subnetwork = dependency.vpc.outputs.vpc_subnetwork_name
+    network = dependency.vpc.outputs.vpc_network_name
+    subnetwork = dependency.vpc.outputs.vpc_subnetwork_name
 
-// }
+    create_service_account = true
 
-// dependency "vpc" {
-//   config_path = "../vpc"
+}
 
-//   mock_outputs = {
-//     network = "example-network"
-//     subnetwork = "example-subnetwork"
-//   }
-// }
+dependency "vpc" {
+  config_path = "../vpc"
+
+  mock_outputs = {
+    vpc_network_name = "example-network"
+    vpc_subnetwork_name = "example-subnetwork"
+  }
+}

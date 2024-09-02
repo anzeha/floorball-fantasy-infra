@@ -62,8 +62,3 @@ variable "argo_cd_service_name"{
   type = string
   default = "argocd-server"
 }
-
-variable "create_service_accounts" {
-  type = bool
-  default = false
-}

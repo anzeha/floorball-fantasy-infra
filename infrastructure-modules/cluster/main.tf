@@ -5,8 +5,8 @@ module "gke" {
   regional                 = var.env == "prod" ? true : false
   zones                    = var.env == "prod" ? [] : var.zones
   region                   = var.region
-  network                  = "${var.network}"
-  subnetwork               = "${var.subnetwork}"
+  network                  = var.network
+  subnetwork               = var.subnetwork
   ip_range_pods            = var.ip_range_pods_name
   ip_range_services        = var.ip_range_services_name
   enable_private_nodes     = true
@@ -24,8 +24,8 @@ module "gke" {
 
   node_pools = [
     {
-      name           = "${var.resource_prefix}-${var.node_pool_name}-${var.env}"
-      machine_type   = var.machine_type
+      name         = "${var.resource_prefix}-${var.node_pool_name}-${var.env}"
+      machine_type = var.machine_type
       # node_locations = var.env == "prod" ? null :  "${var.zones[0]}"
       #TODO
       node_locations = "${var.zones[0]}"
@@ -42,7 +42,7 @@ module "gke" {
     ]
   }
 
-   node_pools_labels = {
+  node_pools_labels = {
     all = {}
 
     default-node-pool = {

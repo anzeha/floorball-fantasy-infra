@@ -1,6 +1,6 @@
 resource "google_service_account" "this" {
-  account_id   = "argo-service-account"
-  display_name = "argocd service account"
+  account_id                   = "argo-service-account"
+  display_name                 = "argocd service account"
   create_ignore_already_exists = true
 }
 
@@ -23,5 +23,5 @@ resource "google_project_iam_member" "this" {
 resource "google_service_account_key" "this" {
   service_account_id = google_service_account.this.email
   key_algorithm      = "KEY_ALG_RSA_2048"
-  public_key_type = "TYPE_RAW_PUBLIC_KEY"
+  public_key_type    = "TYPE_RAW_PUBLIC_KEY"
 }

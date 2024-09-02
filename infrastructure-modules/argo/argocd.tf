@@ -31,16 +31,16 @@ resource "helm_release" "argocd" {
 }
 
 resource "kubernetes_ingress_v1" "this" {
-  depends_on = [ helm_release.argocd ]
-  count = var.setup_argocd_ingress ? 1 : 0
+  depends_on = [helm_release.argocd]
+  count      = var.setup_argocd_ingress ? 1 : 0
   metadata {
     name      = "argocd-server-http-ingress"
     namespace = var.argocd_namespace
     annotations = {
-      "kubernetes.io/ingress.class": "nginx"
-      "nginx.ingress.kubernetes.io/force-ssl-redirect": "true"
-      "ingress.kubernetes.io/ssl-redirect": "true"
-      "nginx.ingress.kubernetes.io/backend-protocol": "HTTPS"
+      "kubernetes.io/ingress.class" : "nginx"
+      "nginx.ingress.kubernetes.io/force-ssl-redirect" : "true"
+      "ingress.kubernetes.io/ssl-redirect" : "true"
+      "nginx.ingress.kubernetes.io/backend-protocol" : "HTTPS"
     }
   }
 
@@ -49,7 +49,7 @@ resource "kubernetes_ingress_v1" "this" {
 
       http {
         path {
-          path     = "/"
+          path      = "/"
           path_type = "Prefix"
 
           backend {

@@ -1,6 +1,6 @@
 #Cloud NAT
 resource "google_compute_address" "nat" {
-  name    = format("%s-%s-%s-nat-ip",var.resource_prefix, var.cluster_name, var.env)
+  name    = format("%s-%s-%s-nat-ip", var.resource_prefix, var.cluster_name, var.env)
   project = var.project_id
   region  = var.region
 }

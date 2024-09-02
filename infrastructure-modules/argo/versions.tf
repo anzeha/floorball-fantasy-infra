@@ -14,7 +14,7 @@ terraform {
     }
     htpasswd = {
       version = "~> 1.2.1"
-      source = "loafoe/htpasswd"
+      source  = "loafoe/htpasswd"
     }
   }
 }

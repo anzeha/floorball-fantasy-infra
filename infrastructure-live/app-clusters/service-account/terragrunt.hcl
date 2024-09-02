@@ -8,7 +8,7 @@ include "root" {
 }
 
 locals {
-  project_id      = include.root.locals.project_id
+  project_id = include.root.locals.project_id
 }
 
 inputs = {

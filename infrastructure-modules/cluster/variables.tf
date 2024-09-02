@@ -2,7 +2,7 @@ variable "project_id" {
   type = string
 }
 variable "env" {
-  type    = string
+  type = string
 }
 
 variable "resource_prefix" {
@@ -13,22 +13,22 @@ variable "cluster_name" {
   type    = string
   default = "gke-cluster"
 }
-variable "node_pool_name"{
-  type = string
+variable "node_pool_name" {
+  type    = string
   default = "node-pool"
 }
 variable "machine_type" {
-  type = string
+  type    = string
   default = "e2-standard-2"
 }
 variable "machine_disk_size" {
-  type = number
+  type    = number
   default = 30
-  
+
 }
 variable "zones" {
-  type = list(string)
-  default = [ "europe-west4-a" ]
+  type    = list(string)
+  default = ["europe-west4-a"]
 }
 
 variable "region" {
@@ -44,9 +44,9 @@ variable "ip_range_services_name" {
   default = "ip-range-services"
 }
 variable "network" {
-  type    = string
+  type = string
 }
 
 variable "subnetwork" {
-  type    = string
+  type = string
 }

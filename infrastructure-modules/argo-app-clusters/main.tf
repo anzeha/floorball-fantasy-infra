@@ -4,7 +4,7 @@ locals {
 }
 
 resource "kubernetes_secret" "gke_cluster" {
-    for_each = local.clusters_map
+  for_each = local.clusters_map
   metadata {
     name      = "${each.value.name}-secret"
     namespace = "argocd"

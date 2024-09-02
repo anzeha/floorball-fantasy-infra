@@ -1,5 +1,5 @@
 variable "env" {
-  type = string
+  type        = string
   description = "Environment name"
 }
 
@@ -39,26 +39,26 @@ variable "ip_range_services_name" {
   default = "ip-range-services"
 }
 variable "nginx" {
-  type = bool
+  type    = bool
   default = true
 }
 variable "subnet_ip" {
-  type = string
+  type    = string
   default = "10.10.0.0/16"
 }
 variable "ip_cidr_range_pods" {
-  type = string
+  type    = string
   default = "10.30.0.0/16"
 }
 variable "ip_cidr_range_services" {
-  type = string
+  type    = string
   default = "10.70.0.0/16"
 }
-variable "argo_cd_namespace"{
-  type = string
+variable "argo_cd_namespace" {
+  type    = string
   default = "argocd"
 }
-variable "argo_cd_service_name"{
-  type = string
+variable "argo_cd_service_name" {
+  type    = string
   default = "argocd-server"
 }

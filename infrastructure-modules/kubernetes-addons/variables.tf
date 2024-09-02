@@ -2,14 +2,14 @@ variable "project_id" {
   type = string
 }
 variable "env" {
-  type    = string
+  type = string
 }
 variable "deploy_nginx" {
-  type = bool
+  type    = bool
   default = true
 }
 variable "cluster_name" {
-  type    = string
+  type = string
 }
 
 variable "region" {
@@ -18,11 +18,11 @@ variable "region" {
 }
 
 variable "create_app_namespace" {
-  type = bool
+  type    = bool
   default = false
 }
 
 variable "app_namespace" {
-  type = string
+  type    = string
   default = "app-namespace"
 }

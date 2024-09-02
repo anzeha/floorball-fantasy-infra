@@ -53,13 +53,18 @@ inputs = {
       name        = "${dependency.app_cluster_staging.outputs.cluster_name}"
       server      = "${dependency.app_cluster_staging.outputs.host}"
     },
+    {
+      bearerToken = "${dependency.service_account.outputs.service_account_key}"
+      name        = "${dependency.app_cluster_prod.outputs.cluster_name}"
+      server      = "${dependency.app_cluster_prod.outputs.host}"
+    },
   ]
 }
 
 dependency "service_account" {
   config_path = "../../../../infrastructure-live/app-clusters/service-account"
   mock_outputs = {
-    service_account_key        = "sample-service-account-key"
+    service_account_key = "sample-service-account-key"
   }
 }
 
@@ -68,6 +73,14 @@ dependency "service_account" {
 ####################################
 dependency "app_cluster_staging" {
   config_path = "../../../../infrastructure-live/app-clusters/staging/cluster"
+  mock_outputs = {
+    cluster_name        = "sample-cluster-name"
+    host                = "sample-host"
+    service_account_key = "exmaple-service-account-key"
+  }
+}
+dependency "app_cluster_prod" {
+  config_path = "../../../../infrastructure-live/app-clusters/prod/cluster"
   mock_outputs = {
     cluster_name        = "sample-cluster-name"
     host                = "sample-host"

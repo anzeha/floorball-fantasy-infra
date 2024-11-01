@@ -1,5 +1,5 @@
 terraform {
-  source = "../../../../infrastructure-modules/cluster"
+  source = "git::https://github.com/anzeha/infra-modules.git//cluster?ref=v0.0.3"
 }
 
 include "root" {
@@ -7,19 +7,29 @@ include "root" {
   expose = true
 }
 
-locals {
-  environment_vars = read_terragrunt_config(find_in_parent_folders("env.hcl"))
+include "env" {
+  path           = find_in_parent_folders("env.hcl")
+  expose         = true
+  merge_strategy = "no_merge"
 }
 
+locals {
+  env          = include.env.locals.env
+  machine_type = include.env.locals.machine_type
+}
 
 inputs = {
-  env        = local.environment_vars.locals.env
+
+  env        = local.env
   project_id = include.root.locals.project_id
 
   resource_prefix = include.root.locals.config_vars.locals.resource_prefix
 
   network    = dependency.vpc.outputs.vpc_network_name
   subnetwork = dependency.vpc.outputs.vpc_subnetwork_name
+
+  machine_type      = local.machine_type
+  argocd_project_id = include.root.locals.project_id
 
 }
 

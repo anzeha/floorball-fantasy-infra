@@ -1,5 +1,5 @@
 terraform {
-  source = "../../../../infrastructure-modules/vpc"
+  source = "git::https://github.com/anzeha/infra-modules.git//vpc?ref=v0.0.3"
 }
 
 include "root" {
@@ -7,12 +7,17 @@ include "root" {
   expose = true
 }
 
+include "env" {
+  path           = find_in_parent_folders("env.hcl")
+  expose         = true
+  merge_strategy = "no_merge"
+}
+
 locals {
 
-  environment_vars = read_terragrunt_config(find_in_parent_folders("env.hcl"))
+  env        = include.env.locals.env
+  project_id = include.root.locals.project_id
 
-  env             = local.environment_vars.locals.env
-  project_id      = include.root.locals.project_id
   resource_prefix = include.root.locals.config_vars.locals.resource_prefix
 }
 

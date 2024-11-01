@@ -1,5 +1,5 @@
 terraform {
-  source = "../../../../infrastructure-modules/kubernetes-addons"
+  source = "git::https://github.com/anzeha/infra-modules.git//kubernetes-addons?ref=v0.0.3"
 }
 
 include "root" {
@@ -7,8 +7,14 @@ include "root" {
   expose = true
 }
 
+include "env" {
+  path           = find_in_parent_folders("env.hcl")
+  expose         = true
+  merge_strategy = "no_merge"
+}
 
-dependency "eks_cluster" {
+
+dependency "cluster" {
   config_path = "../cluster"
   mock_outputs = {
     cluster_ca_certificate = "sample-ceritifcate"
@@ -48,16 +54,15 @@ EOF
 }
 
 locals {
-  environment_vars = read_terragrunt_config(find_in_parent_folders("env.hcl"))
+  env = include.env.locals.env
 }
 
-
 inputs = {
-  env        = local.environment_vars.locals.env
+  env        = local.env
   project_id = include.root.locals.project_id
 
-  cluster_name = dependency.eks_cluster.outputs.cluster_name
+  cluster_name = dependency.cluster.outputs.cluster_name
 
   create_app_namespace = true
-  app_namespace        = local.environment_vars.locals.app_namespace
+  app_namespace        = include.root.locals.app_namespace
 }

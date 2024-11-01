@@ -21,7 +21,6 @@ inputs = {
   network    = dependency.vpc.outputs.vpc_network_name
   subnetwork = dependency.vpc.outputs.vpc_subnetwork_name
 
-
 }
 
 dependency "vpc" {

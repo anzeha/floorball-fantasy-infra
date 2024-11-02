@@ -29,7 +29,7 @@ inputs = {
   subnetwork = dependency.vpc.outputs.vpc_subnetwork_name
 
   machine_type      = local.machine_type
-  argocd_project_id = include.root.locals.project_id
+  argocd_project_id = include.root.locals.cicd_project_id
 
 }
 

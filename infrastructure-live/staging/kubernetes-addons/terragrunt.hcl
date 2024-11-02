@@ -31,9 +31,9 @@ generate "kubernetes_provider" {
 
   contents = <<EOF
 provider "kubernetes" {
-  cluster_ca_certificate = base64decode("${dependency.eks_cluster.outputs.cluster_ca_certificate}")
-  host                   = "${dependency.eks_cluster.outputs.host}"
-  token                  = "${dependency.eks_cluster.outputs.token}"
+  cluster_ca_certificate = base64decode("${dependency.cluster.outputs.cluster_ca_certificate}")
+  host                   = "${dependency.cluster.outputs.host}"
+  token                  = "${dependency.cluster.outputs.token}"
   exec {
     api_version = "client.authentication.k8s.io/v1beta1"
     command     = "gke-gcloud-auth-plugin"
@@ -41,9 +41,9 @@ provider "kubernetes" {
 }
 provider "helm" {
   kubernetes {
-    cluster_ca_certificate = base64decode("${dependency.eks_cluster.outputs.cluster_ca_certificate}")
-    host                   = "${dependency.eks_cluster.outputs.host}"
-    token                  = "${dependency.eks_cluster.outputs.token}"
+    cluster_ca_certificate = base64decode("${dependency.cluster.outputs.cluster_ca_certificate}")
+    host                   = "${dependency.cluster.outputs.host}"
+    token                  = "${dependency.cluster.outputs.token}"
     exec {
       api_version = "client.authentication.k8s.io/v1beta1"
       command     = "gke-gcloud-auth-plugin"
@@ -64,5 +64,5 @@ inputs = {
   cluster_name = dependency.cluster.outputs.cluster_name
 
   create_app_namespace = true
-  app_namespace        = include.root.locals.app_namespace
+  app_namespace        = include.root.locals.config_vars.locals.app_namespace
 }

@@ -19,9 +19,10 @@ locals {
   config_vars = read_terragrunt_config("${get_parent_terragrunt_dir()}/config.hcl")
 
   # project_id is not the same as bucket_project_id
-  region     = local.config_vars.locals.region
-  project_id = local.config_vars.locals.project_id
-  bucket_name = local.config_vars.locals.bucket_name
+  region          = local.config_vars.locals.region
+  project_id      = local.config_vars.locals.project_id
+  cicd_project_id = local.config_vars.locals.cicd_project_id
+  bucket_name     = local.config_vars.locals.bucket_name
 }
 
 

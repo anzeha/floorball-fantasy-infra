@@ -1,5 +1,5 @@
 terraform {
-  source = "git::https://github.com/anzeha/infra-modules.git//kubernetes-addons?ref=v0.0.12"
+  source = "git::https://github.com/anzeha/infra-modules.git//kubernetes-addons?ref=v0.0.16"
 }
 
 include "root" {
@@ -31,7 +31,6 @@ generate "kubernetes_provider" {
 
   contents = <<EOF
 provider "kubernetes" {
-  alias                  = "gke"
   cluster_ca_certificate = base64decode("${dependency.cluster.outputs.cluster_ca_certificate}")
   host                   = "${dependency.cluster.outputs.host}"
   token                  = "${dependency.cluster.outputs.token}"
@@ -45,7 +44,7 @@ provider "helm" {
     cluster_ca_certificate = base64decode("${dependency.cluster.outputs.cluster_ca_certificate}")
     host                   = "${dependency.cluster.outputs.host}"
     token                  = "${dependency.cluster.outputs.token}"
-    exec {
+    exec = {
       api_version = "client.authentication.k8s.io/v1beta1"
       command     = "gke-gcloud-auth-plugin"
     }
@@ -66,4 +65,6 @@ inputs = {
 
   create_app_namespace = true
   app_namespace        = include.root.locals.config_vars.locals.app_namespace
+
+  install_sealed_secrets = true
 }
